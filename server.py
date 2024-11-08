@@ -19,7 +19,7 @@ def broadcast(room, msg):
         r.send(msg)
 
 
-def sendMessage(name, room, client):
+def sendMessageToClient(name, room, client):
     while True:
         message = client.recv(1024)
         message = f'{name}: {message.decode()}\n'
@@ -36,8 +36,6 @@ while True:
         rooms[room] = []
 
     rooms[room].append(client)
-    print(f'{name} entrou na sala {room}. INFO {addr}')
-    print(rooms)
-    broadcast(room, f'{name} entrou na sala.\n')
-    thread = threading.Thread(target=sendMessage, args=(name, room, client))
+    broadcast(room, f'{name}: Entrou na sala.\n')
+    thread = threading.Thread(target=sendMessageToClient, args=(name, room, client))
     thread.start()
